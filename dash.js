@@ -85,7 +85,6 @@ const gleanBugzillaProjects = [
 // Milestones for glean (includes glean-core)
 const gleanMilestones = [
   ["testing", "Improve testing"],
-  ["m13", "Glean Python SDK"],
   ["m17", "High-level docs"],
   ["m18", "Glean JavaScript SDK Feature Parity"],
 ];
