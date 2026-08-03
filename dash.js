@@ -32,13 +32,17 @@ let teamEmails = [
   "chutten@mozilla.com",
   "alessio.placitelli@gmail.com",
   "jrediger@mozilla.com",
-  "tlong@mozilla.com"
+  "tlong@mozilla.com",
+  "chumphreys@mozilla.com",
+  "mathieu@mozilla.com"
 ];
 let teamGithubNames = [
   "chutten",
   "badboy",
   "Dexterp37",
-  "travis79"
+  "travis79",
+  "jeddai",
+  "leplatrem"
 ];
 
 const telemetryBugzillaProjects = [
@@ -79,6 +83,84 @@ const gleanBugzillaProjects = [
   {
     product: "Data Platform and Tools",
     component: "Glean Metric Types",
+  }
+];
+
+const remoteSettingsBugzillaProjects = [
+  {
+    product: "Cloud Services",
+    component: "Server: Remote Settings"
+  },
+  {
+    product: "Firefox",
+    component: "Remote Settings Client"
+  },
+  {
+    product: "Application Services",
+    component: "Remote Settings"
+  }
+];
+
+const remoteSettingsGithubProjects = [
+  {
+    user: "Kinto",
+    project: "kinto"
+  },
+  {
+    user: "Kinto",
+    project: "kinto-admin"
+  },
+  {
+    user: "Kinto",
+    project: "kinto-attachment"
+  },
+  {
+    user: "Kinto",
+    project: "kinto-emailer"
+  },
+  {
+    user: "Kinto",
+    project: "kinto.js"
+  },
+  {
+    user: "Kinto",
+    project: "kinto-http.py"
+  },
+  {
+    user: "Kinto",
+    project: "kinto-wizard"
+  },
+  {
+    user: "mozilla",
+    project: "remote-settings"
+  },
+  {
+    user: "mozilla-extensions",
+    project: "remote-settings-devtools"
+  },
+  {
+    user: "mozilla-services",
+    project: "canonicaljson-rs"
+  },
+  {
+    user: "mozilla-services",
+    project: "python-canonicaljson-rs"
+  },
+  {
+    user: "mozilla-services",
+    project: "pyramid_multiauth"
+  },
+  {
+    user: "mozilla-services",
+    project: "python-autograph-utils"
+  },
+  {
+    user: "mozilla-services",
+    project: "python-dockerflow"
+  },
+  {
+    user: "mozilla-services",
+    project: "telescope"
   }
 ];
 
@@ -132,12 +214,12 @@ let bugLists = new Map([
       ],
     }],
 
-    ... [1, 2].map(priority => [
+    ...[1, 2].map(priority => [
       `p${priority}`,
       {
         columns: ["assignee", "points", "title", "project", "whiteboard"],
         searches: [
-          ... telemetryBugzillaProjects.map(p => ({
+          ...telemetryBugzillaProjects.map(p => ({
             search: {
               type: "bugzillaComponent",
               product: p.product,
@@ -198,7 +280,7 @@ let bugLists = new Map([
             open: true,
           },
         },
-        ... telemetryBugzillaProjects.map(p => ({
+        ...telemetryBugzillaProjects.map(p => ({
           search: {
             type: "bugzillaComponent",
             product: p.product,
@@ -225,7 +307,7 @@ let bugLists = new Map([
             lastChangeTime: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000),
           },
         },
-        ... telemetryBugzillaProjects.map(p => ({
+        ...telemetryBugzillaProjects.map(p => ({
           search: {
             type: "bugzillaComponent",
             product: p.product,
@@ -243,7 +325,7 @@ let bugLists = new Map([
   /**************************************************************************
    * p3, p4, p5 categories for client team.
    *************************************************************************/
-  ... [3, 4, 5].map(priority => ["p" + priority, new Map([
+  ...[3, 4, 5].map(priority => ["p" + priority, new Map([
     ["p" + priority, {
       columns: ["assignee", "title", "whiteboard"],
       searches: telemetryBugzillaProjects.map(p => ({
@@ -281,12 +363,12 @@ let bugLists = new Map([
    * Glean bugs.
    *************************************************************************/
   ["glean", new Map([
-    ... [[1, "active bugs"], [2, "next iteration"]].map(([priority, name]) => [
+    ...[[1, "active bugs"], [2, "next iteration"]].map(([priority, name]) => [
       `p${priority}: ${name}`,
       {
         columns: ["assignee", "points", "title", "project", "whiteboard"],
         searches: [
-          ... gleanBugzillaProjects.map(p => ({
+          ...gleanBugzillaProjects.map(p => ({
             search: {
               type: "bugzillaComponent",
               product: p.product,
@@ -297,7 +379,7 @@ let bugLists = new Map([
               open: true,
             },
           })),
-          ... gleanGithubProjects.map(p => ({
+          ...gleanGithubProjects.map(p => ({
             search: {
               type: "githubRepo",
               user: p.user,
@@ -316,7 +398,7 @@ let bugLists = new Map([
       {
         columns: ["assignee", "points", "title", "project", "whiteboard"],
         searches: [
-          ... gleanBugzillaProjects.map(p => ({
+          ...gleanBugzillaProjects.map(p => ({
             search: {
               type: "bugzillaComponent",
               product: p.product,
@@ -331,7 +413,7 @@ let bugLists = new Map([
         ],
       },
     ],
-    ... gleanMilestones.map(milestone => [`Focus area ${milestone[0]}: ${milestone[1]}`,
+    ...gleanMilestones.map(milestone => [`Focus area ${milestone[0]}: ${milestone[1]}`,
       {
         columns: ["assignee", "title", "whiteboard"],
         searches: [
@@ -354,7 +436,7 @@ let bugLists = new Map([
       {
         columns: ["assignee", "points", "title", "project", "whiteboard"],
         searches: [
-          ... gleanBugzillaProjects.map(p => ({
+          ...gleanBugzillaProjects.map(p => ({
             search: {
               type: "bugzillaComponent",
               product: p.product,
@@ -417,6 +499,82 @@ let bugLists = new Map([
   ])],
 
   /**************************************************************************
+   * Remote Settings.
+   *************************************************************************/
+  ["remote settings", new Map([
+    ...[[1, "active bugs"], [2, "next iteration"]].map(([priority, name]) => [
+      `p${priority}: ${name}`,
+      {
+        columns: ["assignee", "points", "title", "project", "whiteboard"],
+        searches: [
+          ...remoteSettingsBugzillaProjects.map(p => ({
+            search: {
+              type: "bugzillaComponent",
+              product: p.product,
+              component: p.component,
+            },
+            filters: {
+              priority: priority,
+              open: true,
+            },
+          })),
+          ...remoteSettingsGithubProjects.map(p => ({
+            search: {
+              type: "githubRepo",
+              user: p.user,
+              project: p.project,
+            },
+            filters: {
+              priority: priority,
+              open: true,
+            },
+          })),
+        ],
+      },
+    ]),
+    [
+      "p3: important, but not yet scheduled",
+      {
+        columns: ["assignee", "points", "title", "project", "whiteboard"],
+        searches: [
+          ...remoteSettingsBugzillaProjects.map(p => ({
+            search: {
+              type: "bugzillaComponent",
+              product: p.product,
+              component: p.component,
+            },
+            filters: {
+              priority: 3,
+              open: true,
+              customFilter: (b) => !anyGleanTag(b),
+            },
+          })),
+        ],
+      },
+    ],
+    [
+      "backlog",
+      {
+        columns: ["assignee", "points", "title", "project", "whiteboard"],
+        searches: [
+          ...remoteSettingsBugzillaProjects.map(p => ({
+            search: {
+              type: "bugzillaComponent",
+              product: p.product,
+              component: p.component,
+            },
+            filters: {
+              priority: 4,
+              open: true,
+              customFilter: (b) => !anyGleanTag(b, "m"),
+            },
+          })),
+        ],
+      },
+    ],
+  ])]
+
+  /**************************************************************************
    * Mentored bugs for client team.
    *************************************************************************/
   ["mentored", new Map([
@@ -460,7 +618,7 @@ let bugLists = new Map([
       {
         columns: ["assignee", "title", "project", "whiteboard"],
         searches: [
-          ... telemetryBugzillaProjects.map(p => ({
+          ...telemetryBugzillaProjects.map(p => ({
             search: {
               type: "bugzillaComponent",
               product: p.product,
@@ -563,7 +721,7 @@ function getAssigneeHtml(bug, value) {
   return alias(value);
 }
 
-function getBugField(bug, field, index=0) {
+function getBugField(bug, field, index = 0) {
   let value = bug[field];
   switch (field) {
     case "assignee":
@@ -571,7 +729,7 @@ function getBugField(bug, field, index=0) {
     case "whiteboard":
       return getWhiteboardHtml(value);
     case "title":
-      return (value.length <= 100) ? value : (value.substring(0, 100) +  " ...");
+      return (value.length <= 100) ? value : (value.substring(0, 100) + " ...");
     case "points":
       return (value !== null) ? value : "";
     case "priority":
@@ -595,7 +753,7 @@ function niceFieldName(fieldName) {
 }
 
 function removeAllChildNodes(node) {
-  while(node.hasChildNodes()) {
+  while (node.hasChildNodes()) {
     node.removeChild(node.lastChild);
   }
 }
@@ -623,7 +781,7 @@ function createTableRow(contents) {
 
   for (let content of contents) {
     let cell = document.createElement("td");
-    if (typeof(content) === "function") {
+    if (typeof (content) === "function") {
       content(cell);
     } else if (Array.isArray(content)) {
       for (let e of content) {
@@ -655,7 +813,7 @@ function compareBugsByAssignee(a, b) {
 function getSorter(listOptions) {
   switch (listOptions.sortColumn) {
     case "last_change_time":
-      return (a, b) => - a.last_change_time.localeCompare(b.last_change_time);
+      return (a, b) => -a.last_change_time.localeCompare(b.last_change_time);
     default:
       return compareBugsByAssignee;
   }
